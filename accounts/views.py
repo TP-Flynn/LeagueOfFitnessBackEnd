@@ -137,3 +137,9 @@ def sign_in(request):
                 status=status.HTTP_401_UNAUTHORIZED,
                 data={"reason": "Invalid login credentials."},
             )
+@csrf_exempt
+@api_view(["GET"])
+def logout(request):
+    if request.user.is_authenticated:
+        auth_logout(request)
+    return HttpResponse("Logged out")
