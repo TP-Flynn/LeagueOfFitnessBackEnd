@@ -11,6 +11,7 @@ from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from accounts.serializers import AthleteSerializer
 
 # Create your views here.
 
@@ -149,3 +150,22 @@ def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
     return Response({"message": "Logged out"}, status=200)
+
+@csrf_exempt
+@api_view(["PUT", "PATCH"])
+@permission_classes([IsAuthenticated])
+def update_profile(request):
+    try:
+        athlete = Athlete.objects.get(username=request.user.username)
+    except Athlete.DoesNotExist:
+        return Response({"error": "Profile not found."}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = AthleteSerializer(athlete, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({
+            "message": "Profile updated successfully.",
+            "profile": serializer.data
+        }, status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
