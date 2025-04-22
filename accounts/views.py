@@ -7,13 +7,16 @@ import logging
 from rest_framework.response import Response
 from django.db import IntegrityError
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import authenticate, login, logout as auth_logout
 from rest_framework import status
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 # Create your views here.
+
 @csrf_exempt
 @api_view(["POST"])
+@permission_classes([AllowAny])
 def register(request):
     """
     Accepts json data from frontend to allow user
@@ -63,7 +66,8 @@ def register(request):
                 logging.exception("Error")
                 return Response(data={"reason": str(e)})
 
-
+@api_view(["GET"])
+@permission_classes([AllowAny])
 def current_user_data(request):
     """
     Generates refresh token for user and provides
@@ -97,6 +101,7 @@ def current_user_data(request):
 
 @csrf_exempt
 @api_view(["POST"])
+@permission_classes([AllowAny])
 def sign_in(request):
 
     if request.user.is_authenticated:
@@ -139,7 +144,8 @@ def sign_in(request):
             )
 @csrf_exempt
 @api_view(["GET"])
+@permission_classes([AllowAny])
 def logout(request):
     if request.user.is_authenticated:
         auth_logout(request)
-    return HttpResponse("Logged out")
+    return Response({"message": "Logged out"}, status=200)

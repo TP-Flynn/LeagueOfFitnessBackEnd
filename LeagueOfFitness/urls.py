@@ -21,4 +21,9 @@ from rest_framework import routers
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(routers.urls)),
+    path('api/accounts/', include('accounts.urls')),
+    path('api/friends/', include('friends.urls')),
+    path('api/leaderboard/', include('leaderboard.urls')),
+    path('api/profiles/', include('profiles.urls')),
+    path('api/workout/', include('Workout.urls')),
 ]

@@ -40,7 +40,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts',
     'Workout',
+    'friends',
+    'leaderboard',
+    'profiles',
 ]
+
+AUTH_USER_MODEL = 'accounts.Athlete'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

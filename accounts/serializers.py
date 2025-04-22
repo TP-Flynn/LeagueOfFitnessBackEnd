@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import accounts
+from .models import Athlete
 
-class accountsSerializer(serializers.ModelSerializer):
+class AthleteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = accounts
+        model = Athlete
         fields = '__all__'
