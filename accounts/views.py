@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout as auth_logout
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from accounts.serializers import AthleteSerializer
+from django.middleware.csrf import get_token
 
 # Create your views here.
 
